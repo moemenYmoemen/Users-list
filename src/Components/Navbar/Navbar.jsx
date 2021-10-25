@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import Searchbox from '../Searchbox/Searchbox'
 
 
 export default class Navbar extends Component {
@@ -14,10 +15,16 @@ export default class Navbar extends Component {
 
                        <img src="./images/logo.png" alt="" className="headerLogo align-self-end" />
                         <h1 class = "text-white fs-3 headerFont ps-2 py-2 align-self-end">Teacher Index</h1>
-       
 
+    
                     
                    </div>
+
+                   <div className="w-50  bg-info mx-auto">
+                     <Searchbox/>
+                   </div>
+                      
+                   
                    </nav>
                 
             </div>
