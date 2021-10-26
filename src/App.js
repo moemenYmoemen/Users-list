@@ -4,23 +4,28 @@ import React, { Component } from 'react'
 import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Footer/Footer';
 import {BrowserRouter} from 'react-router-dom'
-import Home from './Components/Home/Home';
+import Mainpanel from './Components/Mainpanel/Mainpanel';
 import { Route, Redirect, Switch } from 'react-router';
 import $ from 'jquery';
 import SortedSet from 'js-sorted-set'
+import Maintitle from './Components/Maintitle/Maintitle';
 
 
 
 export default class App extends Component {
 
   state = {
-    namesAlphabet:[]
+    namesAlphabet:[],
+    maintitle:'Viewed Profiles',
+    teacherslist_primary:[],
+    teacherslist_filtered:[]
   }
 
    getData()
   {
     $.getJSON('https://cdn.chalk.com/misc/sample_teachers.json', data=> {
 
+      
       const set = new SortedSet({ comparator: function(a, b) { return b - a }});
 
       const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split("");
@@ -28,7 +33,6 @@ export default class App extends Component {
       for(let i =0; i<data.length;i++)
       {
         let newLetter = data[i].first_name[0].toUpperCase();
-        //console.log(newLetter);
         set.insert(newLetter);
       }
 
@@ -41,7 +45,9 @@ export default class App extends Component {
       }
 
       //console.log(alphabet);
-      this.setState({namesAlphabet:alphabet});
+      this.setState({namesAlphabet:alphabet,
+                     teacherslist_primary:data});
+  
       
 
   });
@@ -55,19 +61,67 @@ export default class App extends Component {
     console.log('calledFirst')
     this.getData();
   }
+
+  searchTerm = (term) =>
+  {
+    this.setState({maintitle:term})
+    this.getTeachers(term);
+   
+  }
+
+
+  getTeachers=(name)=>
+  {
+
+    let teachersList = this.state.teacherslist_primary;
+    let filteredlist =[];
+
+    
+    // Case 1 : empty input
+    if(name.length==0)
+    {
+     
+        this.setState({teacherslist_filtered:[]});
+       
+    }
+
+    // Case 2 : Single letter
+    else if(name.length==1)
+    {
+  
+      for(let i =0; i<teachersList.length;i++)
+      {
+        
+        if(teachersList[i].first_name[0].toUpperCase()  === name.toUpperCase())
+        {
+          let newTeacher =  JSON.parse(JSON.stringify( teachersList[i]));
+          filteredlist.push(newTeacher);
+          
+        }
+      }
+
+      this.setState({teacherslist_filtered:filteredlist});
+    }
+
+ 
+
+    // Case 3 : Single Name
+
+    // Case 4 : First Name Last Name
+
+    // Case 5 : More than 2 names
+  }
+
+
   
   render() {
+    
 
     return (
       <React.Fragment>
-      <Navbar namesAlphabet = {this.state.namesAlphabet}/>
-     
-      <Switch>
-            <Route path='/home'> <Home/> </Route>
-            <Redirect from="/" to="/home" />
-        <Redirect from="/" to="/home" />
-      </Switch>
-      
+      <Navbar namesAlphabet = {this.state.namesAlphabet} searchTerm = {this.searchTerm}/>
+      <Maintitle title = {this.state.maintitle}/>
+      <Mainpanel filtered_teachers={this.state.teacherslist_filtered}/>
       <Footer/> 
       </React.Fragment>
     )

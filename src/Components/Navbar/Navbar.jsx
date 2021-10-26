@@ -6,9 +6,20 @@ import Searchbox from '../Searchbox/Searchbox'
 
 export default class Navbar extends Component {
 
-  
+    termCallback = (term) =>
+    {
+        let searchTermCallback = this.props.searchTerm;
+        searchTermCallback(term);
+   
+
+    }
+
+ 
 
     render() {
+
+     
+
         
         
 
@@ -27,13 +38,13 @@ export default class Navbar extends Component {
                    </div>
 
                    <div className="w-50  mx-auto position-relative">
-                     <Searchbox/>
+                     <Searchbox parentCallback = {this.termCallback} />
                 
                      
                    </div>
 
-                   <div className='position-absolute start-50 translate-middle alphanav w-100 bg-info mx-auto'>
-                        <Alphanav namesAlphabet={this.props.namesAlphabet}/> 
+                   <div className='position-absolute start-50 translate-middle alphanav w-75  mx-auto'>
+                        <Alphanav namesAlphabet={this.props.namesAlphabet} parentCallback = {this.termCallback}/> 
                      </div>
 
                         

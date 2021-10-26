@@ -6,36 +6,27 @@ export default class Alphanav extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            stringArrUnmodified:[]
  
-        }
-
-        
        
     }
 
-    componentDidMount()
-    {
-        // this.stringSpace(this.props.namesAlphabet);
-        this.setState({stringArrUnmodified: this.props.namesAlphabet})
-           
-
-    }
 
     
     
     render() {
-            let alphabetArray  = this.state.stringArrUnmodified;
+            let alphabetArray  = this.props.namesAlphabet;
+            let parentCallback = this.props.parentCallback;
+            
       
         return (
-            <div className="text-white">
+            <div className="text-white w-100">
 
-      
+                <div className="d-flex justify-content-evenly flex-wrap">
 
+                {alphabetArray.map((letter)=> (<div id = "alphaletter" className = "alphanavText px-1 fs-1" onClick={()=>parentCallback(letter)} >{letter}</div> ))}
+
+                </div>
               
-
-               <p> {alphabetArray.map((letter)=> (<span className = "alphanavText fs-1">{letter}</span> ))}</p>
 
             </div>
         )
