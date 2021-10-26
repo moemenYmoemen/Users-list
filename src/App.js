@@ -6,28 +6,70 @@ import Footer from './Components/Footer/Footer';
 import {BrowserRouter} from 'react-router-dom'
 import Home from './Components/Home/Home';
 import { Route, Redirect, Switch } from 'react-router';
-import Portfolio from './Components/Portfolio/Portfolio';
-import About from './Components/About/About';
-import Contact from './Components/Contact/Contact';
+import $ from 'jquery';
+import SortedSet from 'js-sorted-set'
 
-function App() {
-  return (
-    <React.Fragment>
-        <Navbar/>
-       
-        <Switch>
-              <Route path='/home'> <Home/> </Route>
-              <Route path='/portfolio'> <Portfolio/> </Route>
-              <Route path='/contact'> <Contact/> </Route>
-              <Route path='/about'> <About/> </Route> 
-              
-              <Redirect from="/" to="/home" />
-          <Redirect from="/" to="/home" />
-        </Switch>
-        
-        <Footer/> 
-        </React.Fragment>
-  );
+
+
+export default class App extends Component {
+
+  state = {
+    namesAlphabet:[]
+  }
+
+   getData()
+  {
+    $.getJSON('https://cdn.chalk.com/misc/sample_teachers.json', data=> {
+
+      const set = new SortedSet({ comparator: function(a, b) { return b - a }});
+
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split("");
+
+      for(let i =0; i<data.length;i++)
+      {
+        let newLetter = data[i].first_name[0].toUpperCase();
+        //console.log(newLetter);
+        set.insert(newLetter);
+      }
+
+      for(let i=0; i<alphabet.length;i++)
+      {
+        if(set.contains(alphabet[i]))
+        {
+          this.state.alphabet.push(alphabet[i]);
+        }
+      }
+
+      //console.log(alphabet);
+      this.setState({namesAlphabet:alphabet});
+      
+
+  });
+ 
 }
 
-export default App;
+
+  constructor(props) {
+    super(props);
+    // Don't call this.setState() here!
+    console.log('calledFirst')
+    this.getData();
+  }
+  
+  render() {
+
+    return (
+      <React.Fragment>
+      <Navbar namesAlphabet = {this.state.namesAlphabet}/>
+     
+      <Switch>
+            <Route path='/home'> <Home/> </Route>
+            <Redirect from="/" to="/home" />
+        <Redirect from="/" to="/home" />
+      </Switch>
+      
+      <Footer/> 
+      </React.Fragment>
+    )
+  }
+}
