@@ -11,6 +11,16 @@ export default class Profile extends Component {
         profileData:{},
         closeBool:false
     }
+
+    constructor(props) {
+      super(props);
+      // Don't call this.setState() here!
+      let profile= {};
+      localStorage.setItem('latestProfile',profile);
+
+    
+    }
+  
         
      handleClose = ()=>
     {
@@ -22,6 +32,28 @@ export default class Profile extends Component {
       ev.target.src = "/images/unknown.jpg"
     }
 
+    addProfiletoLocal(selectedTeacherProfile)
+    {
+      
+     
+
+
+      let newprofile = JSON.stringify(selectedTeacherProfile);
+      console.log('newwwwwwww');
+      console.log(newprofile);
+    
+ 
+      localStorage.setItem('latestProfile',newprofile);
+     
+      
+     
+
+        console.log('retrive')
+        console.log( JSON.parse(localStorage.getItem('latestProfile')));
+   
+  
+    }
+
     render() {
 
 
@@ -29,14 +61,17 @@ export default class Profile extends Component {
       let selectedTeacherProfile = this.props.profileData;
       console.log("MOUNT" + selectedTeacherProfile.first_name);
       console.log("UNDEFINED " + (selectedTeacherProfile!=null));
+      console.log("STATE CLOSE " + (this.state.closeBool));
       
-
        if(selectedTeacherProfile.first_name!=null && this.state.closeBool==false)
         { 
           this.state.show = true;
+          this.addProfiletoLocal(selectedTeacherProfile);
+
         }
         else{
-          return <></>;
+          this.state.closeBool=false;
+          return  <Offcanvas show={false} onHide={this.handleClose} placement='end' className='canvaswidth rounded-start bg-canvas text-white py-3' scroll ={true} backdrop={false} >  </Offcanvas>;
         }
 
         this.state.closeBool = false;

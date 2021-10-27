@@ -45,7 +45,7 @@ export default class Mainpanel extends Component {
         this.assesTeacherlist();
 
         if (this.state.redirect==='home') {
-          return <Latestteacherslist teacherID={this.state.getTeacherProfileById}/> 
+          return <Latestteacherslist teacherID={this.getTeacherProfileById}/> 
         }
         else if  (this.state.redirect==='teachers') {
             
