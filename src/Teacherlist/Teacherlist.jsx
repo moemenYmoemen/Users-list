@@ -7,10 +7,11 @@ export default class Teacherlist extends Component {
     
     render() {
         let teachersList = this.props.teachers_list;
-        function addDefaultSrc(ev){
-            ev.target.src = 'some default image url'
-            console.log('hh')
-          }
+        let sendTeacherID = this.props.teacherID;
+
+     
+
+      
         return (
 
             <div className=" mainPanel text-center mx-auto position-relative mainPanel shadow overflow-auto">
@@ -29,14 +30,14 @@ export default class Teacherlist extends Component {
                             <img 
 
                             className="avatarimg" 
-                            src={teacher.avatar} 
+                            src={teacher.avatar || "/images/unknown.jpg"} 
                             onError={(event) => event.target.style.display = 'none'}/>
                         </div>
                     </div>
 
 
                     <div className="col-md-4 col-sm-6 fs-2 fw-lighter ">
-                        <div className="float-start text-secondary ">
+                        <div className="float-start text-secondary teacherName" onClick={function(){sendTeacherID(teacher.id)}} >
                             <p>{teacher.first_name}  {teacher.last_name}</p>
                         </div>
                         
@@ -47,7 +48,7 @@ export default class Teacherlist extends Component {
                     </div>
 
                     <div className="col-md-3  col-sm-6 ">
-                        <button className='btn btn-success'>View</button>
+                        <button className='btn btn-success' onClick={function(){sendTeacherID(teacher.id)}}>View</button>
                     </div> 
 
 

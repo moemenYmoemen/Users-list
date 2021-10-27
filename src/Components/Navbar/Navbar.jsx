@@ -18,16 +18,11 @@ export default class Navbar extends Component {
 
     render() {
 
-     
-
-        
-        
-
         return (
 
             <React.Fragment>
             <div>
-                <nav className="navbar navbar-expand-sm navbar-dark bg-dark headerPanel position-relative ">
+                <nav className="navbar navbar-expand-sm navbar-dark bg-dark headerPanel position-relative siteWidth ">
                     
                    <div className="container  d-flex justify-content-start  align-items-center position-absolute headerElements">
 

@@ -9,6 +9,8 @@ import { Route, Redirect, Switch } from 'react-router';
 import $ from 'jquery';
 import SortedSet from 'js-sorted-set'
 import Maintitle from './Components/Maintitle/Maintitle';
+import Profile from './Components/Profile/Profile';
+
 
 
 
@@ -18,7 +20,10 @@ export default class App extends Component {
     namesAlphabet:[],
     maintitle:'Viewed Profiles',
     teacherslist_primary:[],
-    teacherslist_filtered:[]
+    teacherslist_filtered:[],
+    selectedProfile:{},
+    profileVisible:false
+
   }
 
    getData()
@@ -69,6 +74,33 @@ export default class App extends Component {
    
   }
 
+  getProfileId = (id)=>
+  {
+
+    let profile =JSON.parse(JSON.stringify(this.getTeachersbyId(id)));
+    console.log("Prof" + profile);
+    this.setState({selectedProfile:profile},function()
+    {
+      this.state.selectedProfile={};
+
+    });
+  }
+
+
+
+  getTeachersbyId=(id)=>
+  {
+    let teachersList = this.state.teacherslist_primary;
+
+    for(let i =0; i< teachersList.length; i++)
+    {
+      if(teachersList[i].id===id)
+      {
+        return teachersList[i];
+      }
+    }
+    return NaN;
+  }
 
   getTeachers=(name)=>
   {
@@ -103,7 +135,7 @@ export default class App extends Component {
       this.setState({teacherslist_filtered:filteredlist});
     }
 
- 
+
 
     // Case 3 : Single Name
 
@@ -112,17 +144,27 @@ export default class App extends Component {
     // Case 5 : More than 2 names
   }
 
+  
 
   
   render() {
     
+    console.log("inside render "+this.state.selectedProfile.first_name);
 
     return (
       <React.Fragment>
+       
+     
+      
+
       <Navbar namesAlphabet = {this.state.namesAlphabet} searchTerm = {this.searchTerm}/>
       <Maintitle title = {this.state.maintitle}/>
-      <Mainpanel filtered_teachers={this.state.teacherslist_filtered}/>
+      <Profile profileData={this.state.selectedProfile}/>
+      <Mainpanel filtered_teachers={this.state.teacherslist_filtered} profileId = {this.getProfileId}/>
       <Footer/> 
+        
+
+  
       </React.Fragment>
     )
   }

@@ -14,9 +14,12 @@ export default class Mainpanel extends Component {
         
     }
 
-    
 
-
+    getTeacherProfileById = (id) =>
+  {
+    this.props.profileId(id);
+   
+  }
 
     assesTeacherlist()
     {
@@ -42,11 +45,11 @@ export default class Mainpanel extends Component {
         this.assesTeacherlist();
 
         if (this.state.redirect==='home') {
-          return <Latestteacherslist/> 
+          return <Latestteacherslist teacherID={this.state.getTeacherProfileById}/> 
         }
         else if  (this.state.redirect==='teachers') {
             
-            return <Teacherlist teachers_list={this.props.filtered_teachers}/> 
+            return <Teacherlist teachers_list={this.props.filtered_teachers} teacherID={this.getTeacherProfileById}/> 
           }
       }
 

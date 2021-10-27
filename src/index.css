@@ -162,3 +162,31 @@ code {
   color: rgb(104, 104, 104);
   text-decoration: none;
 }
+
+.canvaswidth
+{
+  width: 45% !important;
+
+}
+
+.teacherName
+{
+  cursor:pointer;
+  transition: all 250ms ease-in-out;
+}
+
+.teacherName:hover{
+
+  transform: scale(1.05);
+}
+
+.offcanvas-header
+{
+
+  justify-content: space-around !important;
+}
+
+.bg-canvas
+{
+  background-color: #1abc9c !important;
+}
